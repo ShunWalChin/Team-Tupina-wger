@@ -1,0 +1,89 @@
+services:
+  web:
+    build:
+      context: ../..
+      dockerfile: extras/docker/production/Dockerfile
+    env_file:
+      - ../../.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8002:8000"
+    volumes:
+      - team_tupina_media:/home/wger/media
+      - team_tupina_static:/home/wger/static
+
+  celery-worker:
+    build:
+      context: ../..
+      dockerfile: extras/docker/production/Dockerfile
+    command: /start-worker
+    env_file:
+      - ../../.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - team_tupina_media:/home/wger/media
+      - team_tupina_static:/home/wger/static
+
+  celery-beat:
+    build:
+      context: ../..
+      dockerfile: extras/docker/production/Dockerfile
+    command: /start-beat
+    env_file:
+      - ../../.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - team_tupina_media:/home/wger/media
+      - team_tupina_static:/home/wger/static
+
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: ${DJANGO_DB_DATABASE}
+      POSTGRES_USER: ${DJANGO_DB_USER}
+      POSTGRES_PASSWORD: ${DJANGO_DB_PASSWORD}
+    restart: unless-stopped
+    volumes:
+      - team_tupina_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - team_tupina_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+volumes:
+  team_tupina_media:
+    name: team_tupina_media
+  team_tupina_static:
+    name: team_tupina_static
+  team_tupina_postgres:
+    name: team_tupina_postgres
+  team_tupina_redis:
+    name: team_tupina_redis

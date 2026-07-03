@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static i18n wger_extras %}
+
+
+{% block title %}Sobre a plataforma Team Tupiná{% endblock %}
+
+{% block content %}
+    <div class="tt-about-page">
+        <p class="lead">
+            Este é o sistema oficial de acompanhamento do <strong>Team Tupiná</strong>:
+            treino, nutrição, evolução corporal e rotina organizados em um ambiente
+            único para alunos, professores e gestão.
+        </p>
+
+        <h3>Personalização Team Tupiná</h3>
+        <p>
+            A experiência foi desenhada para o método de trabalho do Team Tupiná.
+            O foco é transformar orientação em execução: menos informação solta,
+            mais plano claro, histórico visível e ajuste de rota.
+        </p>
+
+        <h3>Tecnologia F.A.T Tech</h3>
+        <p>
+            A plataforma foi personalizada e integrada pela
+            <strong>F.A.T Tech</strong>, usando o wger como motor open source de
+            treino, nutrição e dados corporais. Sobre essa base, foram adicionados
+            identidade visual, fluxos do ecossistema Team Tupiná, integrações,
+            ambiente de produção e preparação mobile.
+        </p>
+
+        <h3>O que o sistema centraliza</h3>
+        <ul class="fa-ul">
+            <li>
+                <span class="fa-li"><i class="fa-solid fa-dumbbell"></i></span>
+                Rotinas de treino, templates públicos, séries, repetições, descanso,
+                esforço percebido e registro de execução.
+            </li>
+            <li>
+                <span class="fa-li"><i class="fa-solid fa-utensils"></i></span>
+                Planos nutricionais, refeições, alimentos em português brasileiro,
+                metas de energia e distribuição de macros.
+            </li>
+            <li>
+                <span class="fa-li"><i class="fa-solid fa-chart-line"></i></span>
+                Peso, medidas, fotos, calendário e histórico para avaliar consistência
+                e evolução real.
+            </li>
+            <li>
+                <span class="fa-li"><i class="fa-solid fa-user-check"></i></span>
+                Gestão de alunos, professores, unidades e operação do acompanhamento.
+            </li>
+        </ul>
+
+        <h3>Responsabilidade</h3>
+        <p>
+            O sistema organiza dados e acompanhamento fitness. Ele não substitui
+            avaliação médica, diagnóstico, tratamento ou orientação individual de
+            profissionais de saúde quando necessários.
+        </p>
+
+        <p class="mt-4">
+            <a class="btn btn-primary" href="{{ team_tupina.whatsapp_url }}"
+               target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp"></i>
+                Falar com o Team Tupiná
+            </a>
+            <a class="btn btn-outline-primary" href="{{ team_tupina.site_url }}">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                Site principal
+            </a>
+        </p>
+    </div>
+{% endblock %}
+
+
+{% block sidebar %}
+    <div class="card mb-3">
+        <div class="card-header">
+            Sistema personalizado
+        </div>
+        <div class="card-body">
+            <p class="mb-2">
+                <strong>Team Tupiná</strong><br>
+                Fitness Coach, acompanhamento online e evolução contínua.
+            </p>
+            <p class="mb-0 small text-muted">
+                Tecnologia, integração e produção por F.A.T Tech.
+            </p>
+        </div>
+    </div>
+
+    <div class="alert alert-info mt-4" role="alert">
+        <strong>Motor open source</strong>
+        <br>
+        Base wger <strong>{{ version }}</strong>
+        {% if date %}
+            <br>
+            {% translate 'Date' %} <strong>{{ date }}</strong>
+        {% endif %}
+    </div>
+{% endblock %}

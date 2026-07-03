@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load wger_extras %}
+
+
+{% block title %}{% translate "Terms of service" %}{% endblock %}
+
+{% block content %}
+    <p>
+        Estes termos serão ajustados para a operação oficial do Team Tupiná.
+        Enquanto a versão personalizada estiver em desenvolvimento, use a
+        plataforma apenas para testes, configuração e validação interna.
+    </p>
+
+    <h3>Uso da plataforma</h3>
+    <p>
+        A plataforma organiza dados de treino, nutrição, medidas, fotos de
+        progresso e informações de acompanhamento. Cadastre apenas dados reais
+        quando houver autorização do aluno e um processo de atendimento definido.
+    </p>
+
+    <h3>Base open-source</h3>
+    <p>
+        Esta versão foi personalizada a partir do wger, software livre licenciado
+        sob AGPL. As obrigações de licença e disponibilização de código devem ser
+        revisadas antes de qualquer publicação em produção.
+    </p>
+{% endblock %}

@@ -1,0 +1,410 @@
+{% extends "template_features.html" %}
+{% load i18n static wger_extras crispy_forms_tags %}
+
+{% block opengraph %}
+    {{ block.super }}
+    <meta property="og:title" content="Team Tupiná | Plataforma de treino e nutrição">
+    <meta property="og:description"
+          content="Acompanhamento online Team Tupiná com treino, nutrição, saúde e evolução registrada em um único sistema.">
+{% endblock %}
+
+{% block opengraphimages %}
+    <meta property="og:image" content="{% static 'images/logos/team-tupina-wordmark.png' %}">
+{% endblock %}
+
+{% block template %}
+    <header class="tt-landing-header">
+        <nav class="navbar navbar-expand-lg px-4">
+            <div class="container-xl">
+                <a class="navbar-brand tt-wordmark" href="{% url 'core:index' %}">
+                    <img src="{% static 'images/team-tupina-wordmark.png' %}" alt="Team Tupiná"/>
+                </a>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item mx-2 my-1">
+                            <a class="nav-link fw-semibold" href="#treinos">Treinos</a>
+                        </li>
+                        <li class="nav-item mx-2 my-1">
+                            <a class="nav-link fw-semibold" href="#nutricao">Nutrição</a>
+                        </li>
+                        <li class="nav-item mx-2 my-1">
+                            <a class="nav-link fw-semibold" href="#progresso">Progresso</a>
+                        </li>
+                        <li class="nav-item mx-2 my-1">
+                            <a class="nav-link fw-semibold" href="{% url 'software:about-us' %}">Contato</a>
+                        </li>
+                    </ul>
+                    {% if not user.is_authenticated %}
+                        <div class="d-flex gap-2 my-2 my-lg-0">
+                            <a role="button" class="btn btn-transparent" href="{% url 'core:user:login' %}">
+                                Entrar
+                            </a>
+                            {% if allow_registration %}
+                                <a role="button" class="btn btn-primary rounded-1 bg-dark-blue px-4"
+                                   href="{% url 'core:user:registration' %}">
+                                    Começar agora
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+        <section class="container-xl tt-hero">
+            <div class="row px-3 d-flex align-items-center justify-content-center gap-4 flex-row-reverse">
+                <div class="col-lg-6 col-sm-6 col-12 d-flex justify-content-center">
+                    <picture>
+                        <source srcset="{% static 'images/hero.avif' %}" type="image/avif">
+                        <img src="{% static 'images/hero.png' %}"
+                             alt="Mulher Team Tupiná treinando com halter"
+                             class="header-hero-image">
+                    </picture>
+                </div>
+                <div class="col-lg-5 col-sm-6 col-12 d-flex py-3 flex-column align-items-start">
+                    <span class="tt-kicker">Fitness Coach | Online</span>
+                    <h1 class="font-bebas-neue display-3 uppercase">
+                        Treino, nutrição e saúde no mesmo acompanhamento
+                    </h1>
+                    <p class="tt-hero-copy">
+                        O sistema Team Tupiná organiza rotina, execução, check-ins e evolução para
+                        alunos que precisam de direção clara sem recomeçar toda semana.
+                    </p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a role="button"
+                           class="btn btn-primary rounded-1 bg-dark-blue py-2 px-5"
+                           href="{% if user.is_authenticated %}{% url 'core:index' %}{% else %}{% url 'core:user:registration' %}{% endif %}">
+                            Acessar plataforma
+                        </a>
+                        <a role="button"
+                           class="btn btn-outline-primary rounded-1 py-2 px-4"
+                           href="{{ team_tupina.instagram_url }}"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            @teamtupina
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container-xl tt-metrics" aria-label="Resumo da plataforma">
+            <div class="row">
+                <div class="col-6 col-md-3 d-flex flex-column align-items-center">
+                    <h2 class="display-3 font-bebas-neue text-dark-blue mb-0">{{ nr_users }}+</h2>
+                    <p class="text-center">perfis acompanhados</p>
+                </div>
+                <div class="col-6 col-md-3 d-flex flex-column align-items-center">
+                    <h2 class="display-3 font-bebas-neue text-dark-blue mb-0">{{ nr_exercises }}+</h2>
+                    <p class="text-center">exercícios para montar treinos</p>
+                </div>
+                <div class="col-6 col-md-3 d-flex flex-column align-items-center">
+                    <h2 class="display-3 font-bebas-neue text-dark-blue mb-0">{{ nr_ingredients }}+</h2>
+                    <p class="text-center">alimentos para planejamento</p>
+                </div>
+                <div class="col-6 col-md-3 d-flex flex-column align-items-center">
+                    <h2 class="display-3 font-bebas-neue text-dark-blue mb-0">24h</h2>
+                    <p class="text-center">acesso ao plano e histórico</p>
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <main>
+        <div class="container-xl">
+            <section class="main-section" id="treinos">
+                <div class="row row-cols row-cols-lg-2 row-cols-sm-1 px-3 w-100 justify-content-center flex-reverse gy-3">
+                    <div class="col-lg-7 col-sm-12 d-flex flex-column justify-content-center align-items-center position-relative">
+                        <picture>
+                            <source srcset="{% static 'images/screens-1.avif' %}" type="image/avif">
+                            <img src="{% static 'images/screens-1.png' %}"
+                                 alt="Tela mobile de rotina de treino"
+                                 class="img-fluid"
+                                 loading="lazy">
+                        </picture>
+                    </div>
+                    <div class="col-lg-5 col-sm-12 d-flex flex-column align-items-start justify-content-center py-2">
+                        <h2 class="w-100 font-bebas-neue display-4 uppercase header-workout">
+                            Rotina de treino <span>sem improviso</span>
+                        </h2>
+                        <ul class="hex-bullet bullet-red">
+                            <li>Planos semanais com séries, repetições, descanso e observações.</li>
+                            <li>Execução guiada para o aluno saber o que fazer no treino do dia.</li>
+                            <li>Templates reutilizáveis para fases de emagrecimento, hipertrofia e performance.</li>
+                            <li>Histórico de cargas e sensação para ajustar o protocolo com critério.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="main-section" id="nutricao">
+                <div class="row row-cols row-cols-lg-2 row-cols-sm-1 px-3 w-100 justify-content-center gy-3">
+                    <div class="col-lg-7 col-sm-12 d-flex flex-column justify-content-center align-items-center position-relative">
+                        <picture>
+                            <source srcset="{% static 'images/screens-2.avif' %}" type="image/avif">
+                            <img src="{% static 'images/screens-2.png' %}"
+                                 alt="Tela mobile de planejamento alimentar"
+                                 class="img-fluid"
+                                 loading="lazy">
+                        </picture>
+                    </div>
+                    <div class="col-lg-5 col-sm-12 d-flex flex-column align-items-start justify-content-center">
+                        <h2 class="w-100 font-bebas-neue display-4 uppercase header-meals">
+                            Nutrição simples <span>para a vida real</span>
+                        </h2>
+                        <ul class="gap-1 hex-bullet bullet-dark-yellow">
+                            <li>Plano alimentar conectado aos objetivos e à rotina do aluno.</li>
+                            <li>Registro de refeições com cálculo automático de energia e macros.</li>
+                            <li>Banco de alimentos amplo para facilitar substituições e ajustes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="main-section" id="progresso">
+                <div class="row row-cols-lg-2 row-cols-sm-1 px-3 w-100 justify-content-center flex-reverse gy-3">
+                    <div class="col-lg-7 col-sm-12 d-flex flex-column justify-content-center align-items-center position-relative">
+                        <picture>
+                            <source srcset="{% static 'images/screens-3.avif' %}" type="image/avif">
+                            <img src="{% static 'images/screens-3.png' %}"
+                                 alt="Tela mobile de progresso corporal"
+                                 class="img-fluid"
+                                 loading="lazy">
+                        </picture>
+                    </div>
+                    <div class="col-lg-5 col-sm-12 d-flex flex-column align-items-start justify-content-center py-2">
+                        <h2 class="w-100 font-bebas-neue display-4 uppercase header-progress">
+                            Check-in e evolução <span>em um só lugar</span>
+                        </h2>
+                        <ul class="hex-bullet bullet-green">
+                            <li>Medidas, peso, fotos e anotações organizadas por data.</li>
+                            <li>Visão de calendário para acompanhar consistência e aderência.</li>
+                            <li>Dados claros para o coach ajustar treino e nutrição com segurança.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section class="main-section p-4 bg-light-blue">
+            <div class="container-xl">
+                <div class="row w-100 gy-3">
+                    <div class="col-lg-6 col-sm-12 d-flex flex-column justify-content-center align-items-center">
+                        <img src="{% static 'images/team-tupina-mark.png' %}"
+                             width="360"
+                             height="360"
+                             alt="Símbolo Team Tupiná"
+                             class="img-fluid tt-brand-mark"
+                             loading="lazy">
+                    </div>
+                    <div class="col-lg-6 col-sm-12 d-flex flex-column justify-content-center">
+                        <h2 class="display-3 uppercase font-bebas-neue header-community">
+                            Método Team Tupiná <span>com tecnologia F.A.T Tech</span>
+                        </h2>
+                        <p class="tt-section-copy">
+                            A base open-source do wger foi personalizada para centralizar o
+                            acompanhamento do Team Tupiná: planejamento, histórico, ajustes e
+                            comunicação mais objetiva entre coach e aluno.
+                        </p>
+                        <div class="d-grid gap-2 d-md-block">
+                            <a href="{% url 'core:user:registration' %}"
+                               class="btn btn-primary rounded-1 w-auto px-5">
+                                Criar acesso
+                            </a>
+                            <a href="{% url 'software:about-us' %}"
+                               class="btn btn-outline-primary rounded-1 w-auto px-5">
+                                Falar com o time
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {% if allow_registration %}
+            <section class="main-section">
+                <div class="container d-flex align-items-center justify-content-center sign-up-bg">
+                    <form method="post"
+                          action="{% url 'core:user:registration' %}"
+                          class="row justify-content-center">
+                        {% csrf_token %}
+                        <h3 class="col-12 text-center fs-1 uppercase font-bebas-neue">
+                            Comece seu acompanhamento
+                        </h3>
+                        <div class="col-lg-5 col-sm-10 col-12">
+                            {% crispy form %}
+                        </div>
+                    </form>
+                </div>
+            </section>
+        {% endif %}
+
+        <section class="bg-bottom-menu p-5">
+            <div class="container-xl">
+                <h2 class="w-100 display-4 text-white text-center text-uppercase heading-h6 py-4">
+                    Mais que uma planilha: um sistema para seguir o plano
+                </h2>
+                <div class="row py-4">
+                    <div class="col-lg-4 col-sm-12 d-flex flex-column align-items-center justify-content-start gap-2">
+                        <i class="fa-solid fa-dumbbell text-white tt-bottom-icon"></i>
+                        <h6 class="text-white fw-bold text-center">Treino estruturado</h6>
+                        <p class="text-light fw-lighter text-center">
+                            Rotinas, templates e logs de treino no mesmo ambiente.
+                        </p>
+                    </div>
+                    <div class="col-lg-4 col-sm-12 d-flex flex-column align-items-center justify-content-start gap-2">
+                        <i class="fa-solid fa-utensils text-white tt-bottom-icon"></i>
+                        <h6 class="text-white fw-bold text-center">Nutrição acompanhada</h6>
+                        <p class="text-light fw-lighter text-center">
+                            Planos alimentares, cálculos e registros para ajustar o caminho.
+                        </p>
+                    </div>
+                    <div class="col-lg-4 col-sm-12 d-flex flex-column align-items-center justify-content-start gap-2">
+                        <i class="fa-solid fa-chart-line text-white tt-bottom-icon"></i>
+                        <h6 class="text-white fw-bold text-center">Evolução visível</h6>
+                        <p class="text-light fw-lighter text-center">
+                            Medidas, fotos, peso e calendário para enxergar progresso real.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="d-grid gap-3 p-5 footer-bg">
+        <div class="container-xl">
+            <div class="d-flex pb-4">
+                <img src="{% static 'images/team-tupina-wordmark.png' %}" alt="Team Tupiná" class="tt-footer-logo"/>
+            </div>
+            <div class="row row-cols-lg-4 row-cols-sm-1 g-2 border-bottom border-light pb-3">
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <h3 class="fs-5 text-white">Acesso</h3>
+                    <ul class="list-group">
+                        {% if allow_registration %}
+                            <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                                <a href="{% url 'core:user:registration' %}">Criar conta</a>
+                            </li>
+                        {% endif %}
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{% url 'core:user:login' %}">Entrar</a>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{% url 'core:index' %}">Dashboard</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <h3 class="fs-5 text-white">Acompanhamento</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{% url 'manager:routine:overview' %}">Treinos</a>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{% url 'nutrition:plan:overview' %}">Nutrição</a>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{% url 'weight:overview' %}">Peso corporal</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <h3 class="fs-5 text-white">Team Tupiná</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{% url 'software:about-us' %}">Contato</a>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{{ team_tupina.instagram_url }}" target="_blank" rel="noopener noreferrer">
+                                Instagram
+                            </a>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{{ team_tupina.whatsapp_url }}" target="_blank" rel="noopener noreferrer">
+                                WhatsApp
+                            </a>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{{ team_tupina.site_url }}">
+                                Site institucional
+                            </a>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{{ team_tupina.premium_url }}">
+                                Team Tupiná Premium
+                            </a>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{{ team_tupina.reset7_url }}">
+                                RESET 7
+                            </a>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{% url 'software:api' %}">REST API</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <h3 class="fs-5 text-white">Base aberta</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="https://github.com/wger-project/wger" target="_blank" rel="noopener noreferrer">
+                                Código-base wger
+                            </a>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="https://github.com/wger-project/wger/blob/master/LICENSE.txt" target="_blank" rel="noopener noreferrer">
+                                Licença AGPL
+                            </a>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 text-light fw-lighter ps-0">
+                            <a href="{% url 'software:tos' %}">Termos de uso</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center py-3 flex-wrap gap-3">
+                <div class="btn-group dropup">
+                    <button class="btn btn-outline-light dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        <span class="{% fa_class 'globe' %}"></span>
+                        {% translate i18n_language.name %}
+                        <span class="caret"></span>
+                    </button>
+
+                    <ul class="dropdown-menu" aria-labelledby="btnGroupLanguages">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'core:language:browser_language' %}?next={{ request.path }}">
+                                <span class="{% fa_class 'globe' %}"></span>
+                                <span>{% translate "Browser language" %}</span>
+                            </a>
+                        </li>
+                        <form id="language-form" action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ redirect_to }}">
+                            <input type="hidden" name="language" id="language-input">
+                            {% for language in languages %}
+                                {% language_select language %}
+                            {% endfor %}
+                        </form>
+                    </ul>
+                </div>
+
+                <p class="text-light fw-lighter mb-0">
+                    Team Tupiná Fitness Coach. Plataforma personalizada pela F.A.T Tech sobre motor open source wger.
+                </p>
+            </div>
+        </div>
+    </footer>
+{% endblock %}

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<!--
+    This file is part of wger Workout Manager
+
+    wger is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    wger is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with Workout Manager. If not, see <http://www.gnu.org/licenses/>.
+-->
+
+{% load i18n static wger_extras django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% clear_breadcrumbs %}
+{% endblock %}
+<html lang="{{ language.short_name }}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="content-language" content="{{ i18n_language.code }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" href="{% static 'images/team-tupina-favicon.png' %}" type="image/png">
+
+    <!-- OpenGraph -->
+    {% block opengraph %}
+        <meta property="og:url" content="{{ request_absolute_path }}">
+        <meta property="og:type" content="website">
+    {% endblock %}
+    {% block opengraphimages %}
+        <meta property="og:image" content="{{ image_absolute_path }}">
+    {% endblock %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/workout-manager.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-compiled.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-custom.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/team-tupina-system.css' %}?v=team-tupina-master-20260703-uxmax1">
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesomefree/css/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'node/@wger-project/react-components/build/assets/index.css' %}" id="react-css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/language-menu.css' %}">
+
+    <script src="{% static 'node/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'node/htmx.org/dist/htmx.min.js' %}"></script>
+    <script src="{% static 'node/@popperjs/core/dist/umd/popper.js' %}"></script>
+    <script src="{% static 'js/nutrition.js' %}"></script>
+    <script src="{% static 'js/language.js' %}"></script>
+    <script>window.WGER_I18N_PATHS = {% react_translation_paths %};</script>
+    <script src="{% static 'node/@wger-project/react-components/build/main.js' %}" type="module" defer="defer"></script>
+
+    {% block header %}{% endblock %}
+
+    <title>{% block title %}Plataforma de acompanhamento{% endblock %} | Team Tupiná</title>
+</head>
+<body class="tt-system-shell{% if user.is_authenticated and '/dashboard' in request_full_path %} tt-dashboard-page{% endif %}">
+
+{#            #}
+{# Navigation #}
+{#            #}
+{% include 'navigation.html' %}
+
+
+{#              #}
+{# Main content #}
+{#              #}
+<div id="main">
+    <div class="container pt-2">
+        <div class="modal fade" id="wger-ajax-info" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="ajax-info-content">
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-light"
+                            data-bs-dismiss="modal">
+                            {% translate "Close" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="current-url" data-current-url="{{ request_full_path }}"></div>
+        <div id="current-language" data-current-language="{{ i18n_language.code }}"></div>
+
+
+        {#             #}
+        {# Guest users #}
+        {#             #}
+        {# {% if not user.is_authenticated or user.userprofile.is_temporary %} #}
+        {% if user.is_authenticated and user.userprofile.is_temporary %}
+            <div class="alert alert-warning text-center tt-demo-alert" role="alert">
+                <strong>Conta de demonstração.</strong>
+                Os dados inseridos aqui podem ser apagados automaticamente.
+                {% if not has_demo_data %}
+                    <br>
+                    <a href="{% url 'core:user:demo-entries' %}" rel="nofollow"
+                       class="btn btn-link btn-sm">
+                        Criar dados de exemplo
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                {% else %}
+                    <br>
+                    <a href="{% url 'core:user:registration' %}" class="btn btn-link btn-sm">
+                        Criar minha conta
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if user.is_authenticated and '/dashboard' in request_full_path %}
+            <section class="tt-dashboard-hero" aria-label="Painel Team Tupiná">
+                <div class="container tt-dashboard-hero-inner">
+                    <div>
+                        <span class="tt-kicker">Painel Team Tupiná</span>
+                        <h1>Central de evolução</h1>
+                        <p>
+                            Treino, nutrição, medidas e rotina em um painel claro para
+                            executar hoje e ajustar com inteligência.
+                        </p>
+                        <div class="tt-dashboard-meta" aria-label="Contexto do painel">
+                            <span>
+                                <span class="{% fa_class 'bolt' %}"></span>
+                                Método ativo
+                            </span>
+                            <span>
+                                <span class="{% fa_class 'chart-line' %}"></span>
+                                Acompanhamento contínuo
+                            </span>
+                        </div>
+                    </div>
+                    <div class="tt-dashboard-side">
+                        <img src="{% static 'images/logos/team-tupina-mark.png' %}"
+                             alt=""
+                             class="tt-dashboard-mark"
+                             loading="lazy">
+                        <div class="tt-dashboard-actions">
+                            <a class="btn btn-primary" href="{% url 'manager:routine:overview' %}">
+                                <span class="{% fa_class 'dumbbell' %}"></span>
+                                Treinos
+                            </a>
+                            <a class="btn btn-outline-light" href="{% url 'nutrition:plan:overview' %}">
+                                <span class="{% fa_class 'utensils' %}"></span>
+                                Nutrição
+                            </a>
+                            <a class="btn btn-outline-light" href="{% url 'measurements:overview' %}">
+                                <span class="{% fa_class 'chart-line' %}"></span>
+                                Medidas
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="tt-dashboard-command-grid container" aria-label="Atalhos principais">
+                <a class="tt-command-card" href="{% url 'manager:routine:calendar' %}">
+                    <span class="{% fa_class 'calendar-check' %}"></span>
+                    <strong>Treino de hoje</strong>
+                    <small>Abra a agenda e execute a próxima sessão.</small>
+                </a>
+                <a class="tt-command-card" href="{% url 'nutrition:plan:overview' %}">
+                    <span class="{% fa_class 'utensils' %}"></span>
+                    <strong>Plano alimentar</strong>
+                    <small>Consulte refeições, metas e ajustes.</small>
+                </a>
+                <a class="tt-command-card" href="{% url 'measurements:overview' %}">
+                    <span class="{% fa_class 'chart-line' %}"></span>
+                    <strong>Evolução</strong>
+                    <small>Registre medidas e acompanhe progresso.</small>
+                </a>
+                {% if perms.gym.manage_gyms or perms.gym.manage_gym or perms.gym.gym_trainer %}
+                    <a class="tt-command-card" href="{% url 'core:user:list' %}">
+                        <span class="{% fa_class 'users-cog' %}"></span>
+                        <strong>Gestão</strong>
+                        <small>Alunos, professores e operação.</small>
+                    </a>
+                {% endif %}
+            </section>
+        {% endif %}
+        {% block template %}{% endblock %}
+    </div>
+</div>
+
+
+<footer id="main-footer" class="bg-light border-top">
+    <div class="container bg-wger-light">
+        <div class="row align-items-center">
+            <div class="col-xl-4 col-md-7 mt-2">
+                <img
+                    src="{% static 'images/logos/team-tupina-wordmark.png' %}"
+                    alt="Team Tupiná"
+                    class="tt-footer-wordmark"
+                    height="42"
+                />
+                <p class="small text-muted mb-0 mt-1">
+                    Treino, nutrição e saúde em acompanhamento contínuo.
+                </p>
+            </div>
+            <div class="col-xl-6 col-md-3">
+                <ul class="list-unstyled mb-0 pt-2">
+                    <li>
+                        <a href="{% url 'core:imprint' %}" class="text-muted small">
+                            {% translate "Imprint" %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'software:tos' %}" class="text-muted small">
+                            {% translate "Terms of service" %}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            {#                                         #}
+            {# Render the links to the other languages #}
+            {#                                         #}
+            <div class="col-md-2">
+                {% if not is_api_path %}
+                    {# Don't show language switcher in the generated API views #}
+                    <div class="btn-group dropup">
+                        <button class="btn btn-light dropdown-toggle"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            <span class="{% fa_class 'globe' %}"></span>
+                            {% translate i18n_language.name %}
+                            <span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu language-menu" aria-labelledby="btnGroupLanguages">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'core:language:browser_language' %}?next={{ request.path }}">
+                                    <span class="{% fa_class 'globe' %}"></span>
+                                    <span>{% translate "Browser language" %}</span>
+                                </a>
+                            </li>
+
+                            <form id="language-form" action="{% url 'set_language' %}" method="post">
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value="{{ redirect_to }}">
+                                <input type="hidden" name="language" id="language-input">
+                                {% for language in languages %}
+                                    {% language_select language %}
+                                {% endfor %}
+                            </form>
+
+                            <li>
+                                <hr class="dropdown-divider"></hr>
+                            </li>
+                        </ul>
+
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

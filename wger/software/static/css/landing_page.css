@@ -1,0 +1,271 @@
+/*  */
+@font-face {
+    font-family: "Bebas Neue";
+    src: url("/static/fonts/bebas_neue/BebasNeue-Regular.woff");
+}
+
+:root {
+    --blue: #2a0a68;
+    --green: #058b55;
+    --red: #00c86b;
+    --dark-yellow: #16c8dc;
+    --violet: #8e58f6;
+    --cyan: #16c8dc;
+    --bg-blue: #230064;
+    --bg-light-blue: #f4f1ff;
+    --ink: #190a35;
+}
+
+html,
+body {
+    font-family: "Roboto", sans-serif;
+    color: var(--ink);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* common css code */
+.font-bebas-neue {
+    font-family: "Bebas Neue", sans-serif;
+}
+
+.bg-dark-blue {
+    background-color: var(--bg-blue);
+    border: 0;
+}
+
+.bg-light-blue {
+    background-color: var(--bg-light-blue);
+}
+
+.bg-dark-blue:hover {
+    color: #fff;
+    background-color: #34118a;
+}
+
+.tt-hero .btn,
+.main-section .btn,
+footer .btn {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-dark-blue {
+    color: var(--bg-blue);
+}
+
+
+ul.hex-bullet {
+    padding-left: 0
+}
+
+ul.hex-bullet li {
+    list-style-type: none;
+}
+
+ul.hex-bullet li::before {
+    content: '⬢';
+    font-size: 20px;
+}
+
+ul.bullet-red li::before {
+    color: var(--red);
+}
+
+ul.bullet-dark-yellow li::before {
+    color: var(--dark-yellow);
+}
+
+ul.bullet-green li::before {
+    color: var(--green);
+}
+
+
+/* styles of html */
+header {
+    background:
+        radial-gradient(circle at 12% 16%, rgba(22, 200, 220, 0.22), transparent 34%),
+        linear-gradient(135deg, #ffffff 0%, #f4f1ff 46%, #eafcff 100%);
+}
+
+.header-hero-image {
+    height: 450px;
+    width: 450px;
+    object-fit: contain;
+}
+
+.tt-wordmark {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.75rem;
+    border-radius: 8px;
+    background: var(--bg-blue);
+    box-shadow: 0 18px 34px rgba(35, 0, 100, 0.16);
+}
+
+.tt-wordmark img {
+    width: min(260px, 56vw);
+    height: auto;
+    display: block;
+}
+
+.tt-hero {
+    padding-block: 3rem 2rem;
+}
+
+.tt-kicker {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.35rem 0.75rem;
+    margin-bottom: 0.75rem;
+    border-left: 4px solid var(--cyan);
+    color: var(--bg-blue);
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.tt-hero h1,
+.tt-hero-copy,
+.tt-section-copy {
+    max-width: 34rem;
+}
+
+.tt-hero-copy,
+.tt-section-copy {
+    line-height: 1.8;
+    color: #3f3654;
+}
+
+.tt-metrics {
+    padding-bottom: 2.5rem;
+}
+
+.tt-brand-mark {
+    max-width: min(360px, 72vw);
+    filter: drop-shadow(0 24px 38px rgba(35, 0, 100, 0.18));
+}
+
+.tt-footer-logo {
+    width: min(280px, 72vw);
+    height: auto;
+    padding: 0.45rem 0.75rem;
+    border-radius: 8px;
+    background: var(--bg-blue);
+}
+
+.tt-bottom-icon {
+    font-size: 4rem;
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+
+ul {
+    text-align: left;
+}
+
+.sign-up-bg {
+    background-image: url('/static/images/sign-up-bg.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 1000px;
+}
+
+.header-community span {
+    color: var(--violet);
+    display: block;
+}
+
+.header-progress span {
+    color: var(--green);
+    display: block;
+}
+
+.header-meals span {
+    color: var(--dark-yellow);
+    display: block;
+}
+
+.header-workout span {
+    color: var(--red);
+    display: block;
+}
+
+.bg-bottom-menu {
+    background: linear-gradient(181.83deg, #230064 2.2%, #3d1695 99.11%);
+}
+
+
+/* main */
+main {
+    background-color: #fff;
+    min-height: 100vh;
+}
+
+
+.main-section {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* last section of main */
+.heading-h6 {
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 0;
+}
+
+/* footer */
+.footer-bg {
+    background-color: var(--bg-blue);
+}
+
+footer a {
+    font-weight: 200;
+    text-decoration: none;
+    transition: all ease-in;
+    color: #ececec;
+}
+
+footer a:hover {
+    font-weight: 500;
+    cursor: pointer;
+    color: #fff;
+}
+
+.flex-reverse {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+/* media screen */
+@media screen and (max-width: 900px) {
+    .flex-reverse {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .header-hero-image {
+        height: 20rem;
+        width: 20rem;
+    }
+
+    .main-section {
+        min-height: 70vh;
+    }
+
+    header {
+        min-height: 80vh;
+    }
+
+}

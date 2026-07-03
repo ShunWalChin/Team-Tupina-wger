@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="179.2" viewBox="0 0 256 179.2" role="img" aria-label="North Macedonia flag">
+  <rect width="256" height="179.2" fill="#d20000"/>
+  <g fill="#ffe600">
+    <path d="M128 89.6 0 0h47.2L128 89.6z"/>
+    <path d="M128 89.6 256 0h-47.2L128 89.6z"/>
+    <path d="M128 89.6 0 179.2h47.2L128 89.6z"/>
+    <path d="M128 89.6 256 179.2h-47.2L128 89.6z"/>
+    <path d="M128 89.6 116 0h24l-12 89.6z"/>
+    <path d="M128 89.6 116 179.2h24l-12-89.6z"/>
+    <path d="M128 89.6 0 78.4v22.4l128-11.2z"/>
+    <path d="M128 89.6 256 78.4v22.4l-128-11.2z"/>
+    <circle cx="128" cy="89.6" r="32"/>
+  </g>
+  <circle cx="128" cy="89.6" r="22" fill="#d20000"/>
+  <circle cx="128" cy="89.6" r="16" fill="#ffe600"/>
+</svg>

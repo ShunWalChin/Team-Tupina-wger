@@ -1,0 +1,41 @@
+/*
+ * TEAM Tupina customization for bootstrap
+ *
+ * https://coolors.co/e63946-a8dadc-457b9d-1d3557-cba328-296713-266dd3-a5a5b6
+ */
+
+$wger-blue: #2a0a68 !default;
+$wger-blue-2: #6f45d6 !default;
+$wger-blue-light-2: #16c8dc !default;
+$wger-light: #f7f8fb !default;
+$wger-light-2: #e6e1f6 !default;
+$wger-light-3: #9f92bd !default;
+$wger-red: #00c86b !default;
+$wger-yellow: #15bfd4 !default;
+$wger-green: #058b55 !default;
+
+$link-color: $wger-blue-2 !default;
+
+@import "../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../node_modules/bootstrap/scss/variables";
+
+$theme-colors: (
+    "primary": $wger-blue,
+    "secondary": $wger-red,
+    "success": $wger-green,
+    "info": $info,
+    "warning": $wger-yellow,
+    "danger": $danger,
+    "light": $wger-light,
+    "dark": $dark
+);
+
+$font-family-sans-serif: "Open Sans Light";
+
+$enable-responsive-font-sizes: true;
+
+
+/*
+ * Import the rest of the bootstrap files
+ */
+@import "../../../../node_modules/bootstrap/scss/bootstrap";

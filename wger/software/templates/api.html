@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wger_extras %}
+
+
+{% block title %}REST API Team Tupiná{% endblock %}
+
+{% block content %}
+
+    <h3>Documentação</h3>
+    <p>A API da plataforma Team Tupiná é documentada com OpenAPI:</p>
+
+    <ul>
+        <li><a href="{% url 'api-root' %}">API navegável</a></li>
+        <li><a href="{% url 'api-redoc' %}">Redoc</a></li>
+        <li><a href="{% url 'api-swagger-ui' %}">Swagger UI</a></li>
+        <li><a href="{% url 'schema' %}">Baixar schema OpenAPI 3</a></li>
+    </ul>
+
+    <p>
+        Esta área é voltada para integrações internas, automações e clientes
+        autorizados. A documentação técnica do wger continua sendo referência
+        para autenticação e filtros avançados.
+    </p>
+
+{% endblock %}
+
+
+
+{% block sidebar %}
+    <div class="alert alert-info" style="margin-top:1em;">
+        A API acompanha a base wger e pode mudar durante a personalização da
+        plataforma Team Tupiná.
+    </div>
+
+    <a href="{% url 'core:user:api-key' %}" class="btn btn-block btn-light">
+        Gerar chave permanente de API
+    </a>
+{% endblock %}
